@@ -1,0 +1,22 @@
+1 - TERMINAL:
+Jouko-MacBook-Air:TMCClient joukokiuru$ docker run -it --name tehtava ubuntu sh -c 'echo "Input website:"; read website; echo "Searching.."; sleep 1; curl http://$website;'
+
+2 - TERMINAL:
+joukokiuru@Jouko-MacBook-Air ~ % docker attach --no-stdin tehtava
+^C%                                                                             joukokiuru@Jouko-MacBook-Air ~ % docker exec -it tehtava bash    
+root@f9aa30bd8036:/# apt update 
+All packages are up to date.
+root@f9aa30bd8036:/# apt install curl
+
+1 - TERMINAL:
+Input website:
+helsinki.fi
+Searching..
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<html><head>
+<title>301 Moved Permanently</title>
+</head><body>
+<h1>Moved Permanently</h1>
+<p>The document has moved <a href="http://www.helsinki.fi/">here</a>.</p>
+</body></html>
+Jouko-MacBook-Air:TMCClient joukokiuru$ 
