@@ -1,0 +1,12 @@
+Dockerfile:
+FROM devopsdockeruh/overwrite_cmd_exercise
+
+WORKDIR /mydir 
+CMD ["-c"]
+
+
+Terminal:
+joukokiuru@Jouko-Air 1.6 % docker build .   
+joukokiuru@Jouko-Air 1.6 % docker image ls    
+joukokiuru@Jouko-Air 1.6 % docker tag 2cf docker-clock
+joukokiuru@Jouko-Air 1.6 % docker run docker-clock    
