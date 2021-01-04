@@ -1,0 +1,49 @@
+DOCKERFILE(S):
+1.
+
+FROM ubuntu:16.04
+
+WORKDIR /mydir
+COPY ./frontend-example-docker-master .
+
+RUN apt-get update -y && apt-get install -y curl 
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash
+
+RUN apt install -y nodejs -y
+RUN node -v && npm -v -y
+RUN npm install -y
+
+ENV API_URL=http://localhost:8000 
+
+EXPOSE 5000
+CMD [ "npm", "start" ]
+
+
+2. 
+FROM ubuntu:16.04
+
+WORKDIR /mydir
+COPY ./backend-example-docker-master .
+
+RUN apt-get update -y && apt-get install -y curl 
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash
+
+
+RUN apt install -y nodejs -y
+RUN node -v && npm -v -y
+RUN npm install -y
+
+ENV FRONT_URL=http://localhost:5000
+
+EXPOSE 8000
+CMD [ "npm", "start" ]
+
+
+TERMINAL:
+joukokiuru@Jouko-Air 1.12 % docker build .   
+joukokiuru@Jouko-Air 1.12 % docker tag 953ad1 1.12    
+joukokiuru@Jouko-Air 1.12 % docker run -d -p 5000:5000 1.12
+
+joukokiuru@Jouko-Air 1.121 % docker build .  
+joukokiuru@Jouko-Air 1.121 % docker tag 576dd58 1.121 
+joukokiuru@Jouko-Air 1.12 % docker run -d -p 8000:8000 1.121    
