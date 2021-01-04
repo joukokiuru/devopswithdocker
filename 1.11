@@ -1,0 +1,24 @@
+DOCKERFILE:
+FROM ubuntu:16.04
+
+
+WORKDIR /mydir
+COPY ./backend-example-docker-master .
+
+
+RUN apt-get update -y && apt-get install -y curl 
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash
+
+
+RUN apt install -y nodejs -y
+RUN node -v && npm -v -y
+RUN npm install -y
+
+EXPOSE 8000
+CMD [ "npm", "start" ]
+
+
+TERMINAL:
+joukokiuru@Jouko-Air 1.11 % docker build .   
+joukokiuru@Jouko-Air 1.11 % docker tag 74555fba 1.11     
+joukokiuru@Jouko-Air 1.11 % docker run -v $(pwd)/logs.txt:/mydir/logs.txt -p 8000:8000 1.11         
