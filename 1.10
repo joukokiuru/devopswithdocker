@@ -1,0 +1,14 @@
+FROM ubuntu:16.04
+
+WORKDIR /mydir
+COPY ./frontend-example-docker-master .
+
+RUN apt-get update -y && apt-get install -y curl 
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash
+
+RUN apt install -y nodejs -y
+RUN node -v && npm -v -y
+RUN npm install -y
+
+EXPOSE 5000
+CMD [ "npm", "start" ]
