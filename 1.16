@@ -1,0 +1,11 @@
+APP URL: https://appi222.herokuapp.com/
+
+TERMINAL;
+joukokiuru@Jouko-Air 1.15 % docker pull devopsdockeruh/heroku-example      
+joukokiuru@Jouko-Air 1.15 % docker tag devopsdockeruh/heroku-example registry.heroku.com/appi222/web
+joukokiuru@Jouko-Air 1.15 % brew tap heroku/brew && brew install heroku
+joukokiuru@Jouko-Air 1.15 % curl https://cli-assets.heroku.com/install.sh | sh
+joukokiuru@Jouko-Air 1.15 % heroku login   
+joukokiuru@Jouko-Air 1.15 % heroku container:login
+joukokiuru@Jouko-Air 1.15 % docker push registry.heroku.com/appi222/web
+joukokiuru@Jouko-Air 1.15 % heroku container:release web -a appi222 
