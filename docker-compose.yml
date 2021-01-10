@@ -1,0 +1,36 @@
+version: '3' 
+
+services: 
+  frontend_service:
+    image: frontend
+    build: .
+    ports: 
+      - 5000:5000
+    environment:
+      - API_URL=http://localhost:8000
+  backend_service:
+    image: backend
+    build: .
+    ports: 
+      - 8000:8000
+    environment: 
+      - FRONT_URL=http://localhost:5000
+      - REDIS=redis
+      - REDIS_PORT=6379
+      - DB_HOST=db
+      - DB_NAME=data1
+      - DB_USERNAME=jouko
+      - DB_PASSWORD=example
+  redis:
+    image: redis:6.2-rc
+
+  db:
+    image: postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=data1
+      - POSTGRES_USER=jouko
+      - POSTGRES_PASSWORD=example
+    volumes: 
+      - ./database:/var/lib/postgresql/data
+    
