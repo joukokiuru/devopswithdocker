@@ -1,4 +1,4 @@
-Before any changes to image/dockerfile Frontend size = 527.5 MB
+Before any changes to image/dockerfile Frontend size = 526.8 MB
 
 3993f68e56d4        11 days ago         CMD ["npm" "start"]                             0B                  buildkit.dockerfile.v0
 <missing>           11 days ago         EXPOSE map[5000/tcp:{}]                         0B                  buildkit.dockerfile.v0
@@ -15,7 +15,7 @@ Before any changes to image/dockerfile Frontend size = 527.5 MB
 <missing>           7 weeks ago         /bin/sh -c set -xe   && echo '#!/bin/sh' > /…   745B                
 <missing>           7 weeks ago         /bin/sh -c #(nop) ADD file:8eef54430e581236e…   131MB   
 
-After optimization Frontend = 472.3 MB
+After optimization Frontend = 471.6 MB
 
 IMAGE               CREATED             CREATED BY                                      SIZE                COMMENT
 700e194b76ba        39 seconds ago      CMD ["npm" "start"]                             0B                  buildkit.dockerfile.v0
@@ -30,6 +30,7 @@ IMAGE               CREATED             CREATED BY                              
 <missing>           7 weeks ago         /bin/sh -c #(nop) ADD file:8eef54430e581236e…   131MB   
 
 DOCKERFILE (FRONT):
+
 FROM ubuntu:16.04
 
 COPY ./frontend-example-docker-master .
@@ -49,5 +50,54 @@ EXPOSE 5000
 CMD [ "npm", "start" ]
 
 
-Before any changes to image/dockerfile Backend size = xx.0 MB
+Before any changes to image/dockerfile Backend size = 333.1 MB
 
+IMAGE               CREATED             CREATED BY                                      SIZE                COMMENT
+953ad179f253        11 days ago         CMD ["npm" "start"]                             0B                  buildkit.dockerfile.v0
+<missing>           11 days ago         EXPOSE map[8000/tcp:{}]                         0B                  buildkit.dockerfile.v0
+<missing>           11 days ago         RUN /bin/sh -c npm install -y # buildkit        18.1MB              buildkit.dockerfile.v0
+<missing>           11 days ago         RUN /bin/sh -c node -v && npm -v -y # buildk…   0B                  buildkit.dockerfile.v0
+<missing>           11 days ago         RUN /bin/sh -c apt install -y nodejs -y # bu…   103MB               buildkit.dockerfile.v0
+<missing>           11 days ago         RUN /bin/sh -c curl -sL https://deb.nodesour…   33.6MB              buildkit.dockerfile.v0
+<missing>           11 days ago         RUN /bin/sh -c apt-get update -y && apt-get …   46.6MB              buildkit.dockerfile.v0
+<missing>           11 days ago         COPY ./backend-example-docker-master . # bui…   73.2kB              buildkit.dockerfile.v0
+<missing>           3 weeks ago         WORKDIR /mydir                                  0B                  buildkit.dockerfile.v0
+<missing>           7 weeks ago         /bin/sh -c #(nop)  CMD ["/bin/bash"]            0B                  
+<missing>           7 weeks ago         /bin/sh -c mkdir -p /run/systemd && echo 'do…   7B                  
+<missing>           7 weeks ago         /bin/sh -c rm -rf /var/lib/apt/lists/*          0B                  
+<missing>           7 weeks ago         /bin/sh -c set -xe   && echo '#!/bin/sh' > /…   745B                
+<missing>           7 weeks ago         /bin/sh -c #(nop) ADD file:8eef54430e581236e…   131MB    
+
+After optimization Backend = 295.8 MB
+
+IMAGE               CREATED             CREATED BY                                      SIZE                COMMENT
+8ee115522015        36 seconds ago      CMD ["npm" "start"]                             0B                  buildkit.dockerfile.v0
+<missing>           36 seconds ago      EXPOSE map[8000/tcp:{}]                         0B                  buildkit.dockerfile.v0
+<missing>           36 seconds ago      WORKDIR /app                                    0B                  buildkit.dockerfile.v0
+<missing>           36 seconds ago      RUN /bin/sh -c apt-get update -y && apt-get …   164MB               buildkit.dockerfile.v0
+<missing>           2 minutes ago       COPY ./backend-example-docker-master . # bui…   73.2kB              buildkit.dockerfile.v0
+<missing>           7 weeks ago         /bin/sh -c #(nop)  CMD ["/bin/bash"]            0B                  
+<missing>           7 weeks ago         /bin/sh -c mkdir -p /run/systemd && echo 'do…   7B                  
+<missing>           7 weeks ago         /bin/sh -c rm -rf /var/lib/apt/lists/*          0B                  
+<missing>           7 weeks ago         /bin/sh -c set -xe   && echo '#!/bin/sh' > /…   745B                
+<missing>           7 weeks ago         /bin/sh -c #(nop) ADD file:8eef54430e581236e…   131MB      
+
+DOCKERFILE (BACKEND):
+
+FROM ubuntu:16.04
+
+COPY ./backend-example-docker-master .
+
+RUN apt-get update -y && apt-get install -y curl ca-certificates &&\
+    curl -sL https://deb.nodesource.com/setup_10.x | bash &&\
+    apt install -y nodejs -y &&\
+    node -v && npm -v -y &&\
+    npm install -y &&\
+    apt-get purge -y --auto-remove git curl &&\
+    rm -rf /var/lib/apt/lists/* &&\
+    npm cache clean --force
+
+WORKDIR /app
+
+EXPOSE 8000
+CMD [ "npm", "start" ]
