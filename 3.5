@@ -1,0 +1,69 @@
+DOCKERFILE - FRONTEND:
+
+FROM node:alpine
+
+WORKDIR /app
+
+COPY ./frontend-example-docker-master .
+
+RUN npm install &&\
+    adduser -S new_user &&\
+    chown -R new_user /app
+ 
+USER new_user
+
+CMD [ "npm", "start" ]
+
+Size after change (frontend):
+
+IMAGE               CREATED             CREATED BY                                      SIZE                COMMENT
+cd4114afbe63        5 minutes ago       CMD ["npm" "start"]                             0B                  buildkit.dockerfile.v0
+<missing>           5 minutes ago       USER new_user                                   0B                  buildkit.dockerfile.v0
+<missing>           5 minutes ago       RUN /bin/sh -c npm install &&    adduser -S …   217MB               buildkit.dockerfile.v0
+<missing>           24 minutes ago      COPY ./frontend-example-docker-master . # bu…   557kB               buildkit.dockerfile.v0
+<missing>           24 minutes ago      WORKDIR /app                                    0B                  buildkit.dockerfile.v0
+<missing>           11 days ago         /bin/sh -c #(nop)  CMD ["node"]                 0B                  
+<missing>           11 days ago         /bin/sh -c #(nop)  ENTRYPOINT ["docker-entry…   0B                  
+<missing>           11 days ago         /bin/sh -c #(nop) COPY file:238737301d473041…   116B                
+<missing>           11 days ago         /bin/sh -c apk add --no-cache --virtual .bui…   7.62MB              
+<missing>           11 days ago         /bin/sh -c #(nop)  ENV YARN_VERSION=1.22.5      0B                  
+<missing>           11 days ago         /bin/sh -c addgroup -g 1000 node     && addu…   96.2MB              
+<missing>           11 days ago         /bin/sh -c #(nop)  ENV NODE_VERSION=15.5.1      0B                  
+<missing>           4 weeks ago         /bin/sh -c #(nop)  CMD ["/bin/sh"]              0B                  
+<missing>           4 weeks ago         /bin/sh -c #(nop) ADD file:8ed80010e443da19d…   5.61MB     
+
+
+DOCKERFILE - BACKEND:
+
+FROM node:alpine
+
+WORKDIR /app
+
+COPY ./backend-example-docker-master .
+
+RUN npm install &&\
+    adduser -S new_user &&\
+    chown -R new_user /app
+
+USER new_user
+
+CMD [ "npm", "start" ]
+
+Size after change (backend):
+IMAGE               CREATED             CREATED BY                                      SIZE                COMMENT
+b894d468d564        6 minutes ago       CMD ["npm" "start"]                             0B                  buildkit.dockerfile.v0
+<missing>           6 minutes ago       USER new_user                                   0B                  buildkit.dockerfile.v0
+<missing>           6 minutes ago       RUN /bin/sh -c npm install &&    adduser -S …   19.6MB              buildkit.dockerfile.v0
+<missing>           6 minutes ago       COPY ./backend-example-docker-master . # bui…   73.2kB              buildkit.dockerfile.v0
+<missing>           35 minutes ago      WORKDIR /app                                    0B                  buildkit.dockerfile.v0
+<missing>           11 days ago         /bin/sh -c #(nop)  CMD ["node"]                 0B                  
+<missing>           11 days ago         /bin/sh -c #(nop)  ENTRYPOINT ["docker-entry…   0B                  
+<missing>           11 days ago         /bin/sh -c #(nop) COPY file:238737301d473041…   116B                
+<missing>           11 days ago         /bin/sh -c apk add --no-cache --virtual .bui…   7.62MB              
+<missing>           11 days ago         /bin/sh -c #(nop)  ENV YARN_VERSION=1.22.5      0B                  
+<missing>           11 days ago         /bin/sh -c addgroup -g 1000 node     && addu…   96.2MB              
+<missing>           11 days ago         /bin/sh -c #(nop)  ENV NODE_VERSION=15.5.1      0B                  
+<missing>           4 weeks ago         /bin/sh -c #(nop)  CMD ["/bin/sh"]              0B                  
+<missing>           4 weeks ago         /bin/sh -c #(nop) ADD file:8ed80010e443da19d…   5.61MB  
+
+
