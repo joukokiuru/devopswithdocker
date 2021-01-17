@@ -1,0 +1,51 @@
+DOCKERFILE -Frontend (added user and chown): 
+
+FROM ubuntu:16.04
+
+WORKDIR /app
+
+COPY ./frontend-example-docker-master .
+
+RUN apt-get update -y && apt-get install -y curl ca-certificates &&\
+    curl -sL https://deb.nodesource.com/setup_10.x | bash &&\
+    apt install -y nodejs -y &&\
+    node -v && npm -v -y &&\
+    npm install -y &&\
+    apt-get purge -y --auto-remove git curl &&\
+    rm -rf /var/lib/apt/lists/* &&\
+    npm cache clean --force &&\
+    useradd -m new_user &&\
+    chown -R new_user /app
+
+USER new_user
+
+EXPOSE 5000
+CMD [ "npm", "start" ]
+
+
+
+DOCKERFILE -Backend (added user and chown): 
+
+FROM ubuntu:16.04
+
+WORKDIR /app
+
+COPY ./backend-example-docker-master .
+
+RUN apt-get update -y && apt-get install -y curl ca-certificates &&\
+    curl -sL https://deb.nodesource.com/setup_10.x | bash &&\
+    apt install -y nodejs -y &&\
+    node -v && npm -v -y &&\
+    npm install -y &&\
+    apt-get purge -y --auto-remove git curl &&\
+    rm -rf /var/lib/apt/lists/* &&\
+    npm cache clean --force &&\
+    useradd -m new_user &&\
+    chown -R new_user /app
+
+USER new_user
+
+EXPOSE 8000
+CMD [ "npm", "start" ]
+
+
