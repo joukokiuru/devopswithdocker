@@ -1,0 +1,42 @@
+327 MB --> 110 MB
+
+----------------
+
+DOCKERFILE:
+
+FROM node:alpine as build-stage
+
+WORKDIR /app
+
+COPY ./frontend-example-docker-master .
+
+RUN npm install -g serve &&\
+    npm build
+
+RUN adduser -S new_user &&\
+    chown -R new_user /app
+
+FROM node:alpine
+
+COPY --from=build-stage /app/ /dist
+
+USER new_user
+
+CMD [ "npm", "start" ]
+
+------------
+
+IMAGE               CREATED             CREATED BY                                      SIZE                COMMENT
+650057f6422b        33 seconds ago      CMD ["npm" "start"]                             0B                  buildkit.dockerfile.v0
+<missing>           33 seconds ago      USER new_user                                   0B                  buildkit.dockerfile.v0
+<missing>           33 seconds ago      COPY /app/ /dist # buildkit                     557kB               buildkit.dockerfile.v0
+<missing>           2 weeks ago         /bin/sh -c #(nop)  CMD ["node"]                 0B                  
+<missing>           2 weeks ago         /bin/sh -c #(nop)  ENTRYPOINT ["docker-entry…   0B                  
+<missing>           2 weeks ago         /bin/sh -c #(nop) COPY file:238737301d473041…   116B                
+<missing>           2 weeks ago         /bin/sh -c apk add --no-cache --virtual .bui…   7.62MB              
+<missing>           2 weeks ago         /bin/sh -c #(nop)  ENV YARN_VERSION=1.22.5      0B                  
+<missing>           2 weeks ago         /bin/sh -c addgroup -g 1000 node     && addu…   96.2MB              
+<missing>           2 weeks ago         /bin/sh -c #(nop)  ENV NODE_VERSION=15.5.1      0B                  
+<missing>           4 weeks ago         /bin/sh -c #(nop)  CMD ["/bin/sh"]              0B                  
+<missing>           4 weeks ago         /bin/sh -c #(nop) ADD file:8ed80010e443da19d…   5.61MB              
+joukokiuru@Jouko-Air 3.6 % 
