@@ -1,0 +1,20 @@
+BEFORE ANY CHANGES (178 MB):
+
+3.7_before                             latest              7fcd59b2a722        30 seconds ago      178MB
+
+joukokiuru@Jouko-Air 3.7 % docker history 3.7_before
+IMAGE               CREATED              CREATED BY                                      SIZE                COMMENT
+7fcd59b2a722        About a minute ago   CMD ["/mydir/script.sh"]                        0B                  buildkit.dockerfile.v0
+<missing>           About a minute ago   RUN /bin/sh -c chmod +x /mydir/script.sh # b…   99B                 buildkit.dockerfile.v0
+<missing>           About a minute ago   COPY script.sh . # buildkit                     99B                 buildkit.dockerfile.v0
+<missing>           About a minute ago   RUN /bin/sh -c apt-get update && apt-get ins…   46.7MB              buildkit.dockerfile.v0
+<missing>           About a minute ago   WORKDIR /mydir                                  0B                  buildkit.dockerfile.v0
+<missing>           15 hours ago         /bin/sh -c #(nop)  CMD ["/bin/bash"]            0B                  
+<missing>           15 hours ago         /bin/sh -c mkdir -p /run/systemd && echo 'do…   7B                  
+<missing>           15 hours ago         /bin/sh -c rm -rf /var/lib/apt/lists/*          0B                  
+<missing>           15 hours ago         /bin/sh -c set -xe   && echo '#!/bin/sh' > /…   745B                
+<missing>           15 hours ago         /bin/sh -c #(nop) ADD file:925571658dd8453e5…   132MB               
+joukokiuru@Jouko-Air 3.7 % 
+
+
+AFTER CHANGES:
