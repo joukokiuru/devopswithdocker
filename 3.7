@@ -17,4 +17,59 @@ IMAGE               CREATED              CREATED BY                             
 joukokiuru@Jouko-Air 3.7 % 
 
 
-AFTER CHANGES:
+DOCKERFILE - BEFORE:
+
+FROM ubuntu:16.04
+
+WORKDIR /mydir
+RUN apt-get update && apt-get install -y curl
+COPY script.sh .
+RUN chmod +x /mydir/script.sh
+
+CMD ["/mydir/script.sh"]
+
+
+
+
+AFTER CHANGES (109 MB):
+
+3.7_after                              latest              db0c4d088d21        7 minutes ago       109MB
+
+joukokiuru@Jouko-Air 3.7 % docker history 3.7_after         
+IMAGE               CREATED             CREATED BY                                      SIZE                COMMENT
+db0c4d088d21        9 minutes ago       CMD ["/app/script.sh"]                          0B                  buildkit.dockerfile.v0
+<missing>           9 minutes ago       USER new_user                                   0B                  buildkit.dockerfile.v0
+<missing>           9 minutes ago       COPY /app/ /dist # buildkit                     99B                 buildkit.dockerfile.v0
+<missing>           23 hours ago        /bin/sh -c #(nop)  CMD ["node"]                 0B                  
+<missing>           23 hours ago        /bin/sh -c #(nop)  ENTRYPOINT ["docker-entry…   0B                  
+<missing>           23 hours ago        /bin/sh -c #(nop) COPY file:238737301d473041…   116B                
+<missing>           23 hours ago        /bin/sh -c apk add --no-cache --virtual .bui…   7.62MB              
+<missing>           23 hours ago        /bin/sh -c #(nop)  ENV YARN_VERSION=1.22.5      0B                  
+<missing>           23 hours ago        /bin/sh -c addgroup -g 1000 node     && addu…   96.2MB              
+<missing>           23 hours ago        /bin/sh -c #(nop)  ENV NODE_VERSION=15.6.0      0B                  
+<missing>           5 weeks ago         /bin/sh -c #(nop)  CMD ["/bin/sh"]              0B                  
+<missing>           5 weeks ago         /bin/sh -c #(nop) ADD file:8ed80010e443da19d…   5.61MB              
+joukokiuru@Jouko-Air 3.7 % 
+
+DOCKERFILE - AFTER:
+
+
+FROM node:alpine as build-stage
+
+WORKDIR /app
+COPY script.sh .
+
+RUN npm install -g serve &&\
+    npm build &&\
+    chmod +x /app/script.sh
+
+RUN adduser -S new_user &&\
+    chown -R new_user /app
+
+FROM node:alpine
+COPY --from=build-stage /app/ /dist
+
+USER new_user
+
+CMD ["/app/script.sh"]
+
